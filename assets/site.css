@@ -291,6 +291,11 @@ body.is-home .stage {
   width: min(760px, 92vw);
   text-align: center;
   animation: rise 1.15s ease both;
+  pointer-events: none;
+}
+
+.landing-copy a {
+  pointer-events: auto;
 }
 
 .landing-copy::before {
@@ -305,12 +310,138 @@ body.is-home .stage {
   position: absolute;
   left: 50%;
   bottom: 8px;
-  z-index: 2;
+  z-index: 6;
   width: min(780px, 92vw);
   height: 118px;
   margin: 0;
   transform: translateX(-50%);
   pointer-events: none;
+}
+
+.egg-stage.is-bounce {
+  height: min(42vh, 300px);
+  bottom: 0;
+}
+
+.bounce-floor {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 22px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(22, 52, 40, 0.22), transparent);
+}
+
+.bounce-route {
+  position: absolute;
+  inset: 0 0 22px;
+  width: 100%;
+  height: calc(100% - 22px);
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.bounce-route.is-gone {
+  opacity: 0;
+}
+
+.egg-stage.is-reduced .bounce-route {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.bounce-route .route-line {
+  fill: none;
+  stroke: #6e4ea8;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 8 7;
+  opacity: 0.95;
+  animation: route-dash 12s linear infinite;
+}
+
+@keyframes route-dash {
+  to {
+    stroke-dashoffset: -180;
+  }
+}
+
+@keyframes egg-calm-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.bounce-sphere {
+  position: absolute;
+  left: 0;
+  bottom: 14px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 72px;
+  height: 84px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: default;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  will-change: transform;
+}
+
+.bounce-sphere.is-draggable {
+  cursor: grab;
+}
+
+.bounce-sphere.is-dragging {
+  cursor: grabbing;
+}
+
+.bounce-sphere.is-calm {
+  animation: egg-calm-in 0.7s ease both;
+}
+
+.bounce-route .route-apex {
+  fill: #fcfaf2;
+  stroke: #163428;
+  stroke-width: 1.2;
+}
+
+.bounce-sphere:focus-visible {
+  outline: 2px solid var(--lavender);
+  outline-offset: 6px;
+  border-radius: 999px;
+}
+
+.bounce-egg {
+  display: block;
+  width: 52px;
+  height: 66px;
+  max-width: none;
+  overflow: visible;
+  transform-origin: 50% 92%;
+  transform-box: fill-box;
+}
+
+.bounce-sphere .egg-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 44px;
+  height: 12px;
+  margin: 0 0 0 -22px;
+  animation: none;
+  background: radial-gradient(ellipse, rgba(22, 52, 40, 0.38) 0%, rgba(22, 52, 40, 0.08) 55%, transparent 72%);
 }
 
 .egg-mascot {
@@ -428,6 +559,525 @@ body.is-home .stage {
   100% {
     transform: scale(1);
   }
+}
+
+.egg-mascot.is-volume {
+  --egg-t: 6.2s;
+  --egg-ease: cubic-bezier(0.42, 0.08, 0.18, 1);
+  animation: egg-travel var(--egg-t) var(--egg-ease) infinite;
+}
+
+.egg-mascot.is-volume .egg-lift,
+.egg-mascot.is-volume .egg-lean,
+.egg-mascot.is-volume .egg-squash,
+.egg-mascot.is-volume .egg-spec,
+.egg-mascot.is-volume .egg-spec-hot,
+.egg-mascot.is-volume .egg-shade,
+.egg-mascot.is-volume .egg-shadow {
+  animation-duration: var(--egg-t);
+  animation-timing-function: var(--egg-ease);
+  animation-iteration-count: infinite;
+}
+
+.egg-lift {
+  display: block;
+  transform-origin: 50% 100%;
+  animation-name: egg-bounce;
+}
+
+.egg-lean {
+  display: block;
+  transform-origin: 50% 82%;
+  animation-name: egg-lean;
+}
+
+.egg-squash {
+  display: block;
+  transform-origin: 50% 100%;
+  animation-name: egg-volume;
+}
+
+.egg-pop {
+  display: block;
+  transform-origin: 50% 80%;
+}
+
+.egg-mascot.is-volume .egg-svg {
+  overflow: visible;
+}
+
+.egg-spec,
+.egg-spec-hot,
+.egg-shade {
+  transform-box: fill-box;
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.egg-spec {
+  animation-name: egg-spec;
+  mix-blend-mode: screen;
+}
+
+.egg-spec-hot {
+  animation-name: egg-spec-hot;
+}
+
+.egg-shade {
+  animation-name: egg-shade;
+  mix-blend-mode: multiply;
+}
+
+.egg-mascot.is-volume .egg-shadow {
+  width: 52px;
+  height: 14px;
+  margin: 0 auto;
+  background: radial-gradient(ellipse, rgba(22, 52, 40, 0.42) 0%, rgba(22, 52, 40, 0.12) 42%, transparent 72%);
+  filter: blur(2px);
+  animation-name: egg-ground;
+}
+
+.egg-mascot.is-volume.is-boing .egg-pop {
+  animation: egg-boing 0.72s cubic-bezier(0.2, 1.55, 0.32, 1);
+}
+
+.egg-clay {
+  --egg-t: 5.2s;
+  --egg-ease: cubic-bezier(0.34, 0.08, 0.16, 1.12);
+}
+
+.egg-clay .egg-squash {
+  animation-name: egg-volume-soft;
+}
+
+.egg-jade {
+  --egg-t: 7.1s;
+  --egg-ease: cubic-bezier(0.5, 0.12, 0.2, 1);
+}
+
+.egg-jade .egg-squash {
+  animation-name: egg-volume-glass;
+}
+
+.egg-jade .egg-spec {
+  mix-blend-mode: screen;
+}
+
+@keyframes egg-travel {
+  0% {
+    transform: translateX(calc(-1 * var(--egg-run)));
+  }
+  44% {
+    transform: translateX(var(--egg-run));
+  }
+  50% {
+    transform: translateX(var(--egg-run));
+  }
+  94% {
+    transform: translateX(calc(-1 * var(--egg-run)));
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--egg-run)));
+  }
+}
+
+@keyframes egg-lean {
+  0%,
+  100% {
+    transform: rotate(-18deg);
+  }
+  10% {
+    transform: rotate(-12deg);
+  }
+  40% {
+    transform: rotate(18deg);
+  }
+  44% {
+    transform: rotate(6deg);
+  }
+  48% {
+    transform: rotate(16deg);
+  }
+  90% {
+    transform: rotate(-18deg);
+  }
+  94% {
+    transform: rotate(-7deg);
+  }
+}
+
+@keyframes egg-bounce {
+  0%,
+  44%,
+  50%,
+  94%,
+  100% {
+    transform: translateY(0);
+  }
+  8% {
+    transform: translateY(-9px);
+  }
+  18% {
+    transform: translateY(-3px);
+  }
+  28% {
+    transform: translateY(-8px);
+  }
+  38% {
+    transform: translateY(-2px);
+  }
+  46% {
+    transform: translateY(-20px);
+  }
+  58% {
+    transform: translateY(-7px);
+  }
+  72% {
+    transform: translateY(-3px);
+  }
+  84% {
+    transform: translateY(-8px);
+  }
+  96% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes egg-volume {
+  0% {
+    transform: scale(1.1, 0.88);
+  }
+  8% {
+    transform: scale(0.9, 1.12);
+  }
+  18% {
+    transform: scale(1.06, 0.93);
+  }
+  28% {
+    transform: scale(0.92, 1.09);
+  }
+  40% {
+    transform: scale(1.04, 0.95);
+  }
+  44% {
+    transform: scale(1.2, 0.78);
+  }
+  47% {
+    transform: scale(0.86, 1.16);
+  }
+  50% {
+    transform: scale(1.08, 0.9);
+  }
+  62% {
+    transform: scale(0.93, 1.08);
+  }
+  76% {
+    transform: scale(1.05, 0.94);
+  }
+  90% {
+    transform: scale(0.94, 1.07);
+  }
+  94% {
+    transform: scale(1.18, 0.8);
+  }
+  97% {
+    transform: scale(0.88, 1.14);
+  }
+  100% {
+    transform: scale(1.1, 0.88);
+  }
+}
+
+@keyframes egg-volume-soft {
+  0% {
+    transform: scale(1.16, 0.82);
+  }
+  10% {
+    transform: scale(0.84, 1.2);
+  }
+  22% {
+    transform: scale(1.12, 0.86);
+  }
+  34% {
+    transform: scale(0.88, 1.14);
+  }
+  44% {
+    transform: scale(1.28, 0.7);
+  }
+  48% {
+    transform: scale(0.8, 1.24);
+  }
+  52% {
+    transform: scale(1.14, 0.84);
+  }
+  70% {
+    transform: scale(0.86, 1.16);
+  }
+  86% {
+    transform: scale(1.1, 0.88);
+  }
+  94% {
+    transform: scale(1.26, 0.72);
+  }
+  97% {
+    transform: scale(0.82, 1.22);
+  }
+  100% {
+    transform: scale(1.16, 0.82);
+  }
+}
+
+@keyframes egg-volume-glass {
+  0% {
+    transform: scale(1.06, 0.94);
+  }
+  12% {
+    transform: scale(0.94, 1.07);
+  }
+  26% {
+    transform: scale(1.04, 0.96);
+  }
+  40% {
+    transform: scale(0.96, 1.05);
+  }
+  44% {
+    transform: scale(1.14, 0.86);
+  }
+  48% {
+    transform: scale(0.9, 1.12);
+  }
+  52% {
+    transform: scale(1.04, 0.96);
+  }
+  70% {
+    transform: scale(0.95, 1.06);
+  }
+  86% {
+    transform: scale(1.03, 0.97);
+  }
+  94% {
+    transform: scale(1.12, 0.88);
+  }
+  97% {
+    transform: scale(0.92, 1.1);
+  }
+  100% {
+    transform: scale(1.06, 0.94);
+  }
+}
+
+@keyframes egg-spec {
+  0%,
+  100% {
+    transform: translate(-11px, -2px) scale(1.05, 0.92);
+  }
+  22% {
+    transform: translate(-2px, -6px) scale(0.9, 1.08);
+  }
+  44% {
+    transform: translate(12px, 1px) scale(1.08, 0.88);
+  }
+  50% {
+    transform: translate(10px, -3px) scale(0.95, 1.04);
+  }
+  72% {
+    transform: translate(2px, -5px) scale(0.88, 1.1);
+  }
+  94% {
+    transform: translate(-12px, 2px) scale(1.1, 0.86);
+  }
+}
+
+@keyframes egg-spec-hot {
+  0%,
+  100% {
+    transform: translate(-8px, -4px);
+    opacity: 0.95;
+  }
+  44% {
+    transform: translate(9px, -1px);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(8px, -5px);
+    opacity: 0.8;
+  }
+  94% {
+    transform: translate(-9px, 0);
+    opacity: 0.7;
+  }
+}
+
+@keyframes egg-shade {
+  0%,
+  100% {
+    transform: translate(10px, 8px);
+    opacity: 0.55;
+  }
+  22% {
+    transform: translate(4px, 12px);
+    opacity: 0.4;
+  }
+  44% {
+    transform: translate(-11px, 7px);
+    opacity: 0.62;
+  }
+  50% {
+    transform: translate(-8px, 10px);
+    opacity: 0.48;
+  }
+  72% {
+    transform: translate(-2px, 12px);
+    opacity: 0.38;
+  }
+  94% {
+    transform: translate(12px, 6px);
+    opacity: 0.58;
+  }
+}
+
+@keyframes egg-ground {
+  0%,
+  100% {
+    transform: translateX(-10px) scale(1.2, 1);
+    opacity: 0.55;
+  }
+  8% {
+    transform: translateX(-4px) scale(0.62, 0.7);
+    opacity: 0.16;
+  }
+  18% {
+    transform: translateX(2px) scale(1.12, 0.95);
+    opacity: 0.48;
+  }
+  28% {
+    transform: translateX(6px) scale(0.7, 0.75);
+    opacity: 0.18;
+  }
+  40% {
+    transform: translateX(10px) scale(1.08, 1);
+    opacity: 0.5;
+  }
+  44% {
+    transform: translateX(12px) scale(1.38, 1.1);
+    opacity: 0.62;
+  }
+  46% {
+    transform: translateX(8px) scale(0.5, 0.6);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateX(10px) scale(1.18, 1);
+    opacity: 0.5;
+  }
+  62% {
+    transform: translateX(4px) scale(0.68, 0.72);
+    opacity: 0.18;
+  }
+  76% {
+    transform: translateX(-2px) scale(1.1, 0.95);
+    opacity: 0.46;
+  }
+  84% {
+    transform: translateX(-6px) scale(0.72, 0.76);
+    opacity: 0.2;
+  }
+  94% {
+    transform: translateX(-12px) scale(1.34, 1.08);
+    opacity: 0.6;
+  }
+  96% {
+    transform: translateX(-8px) scale(0.52, 0.62);
+    opacity: 0.12;
+  }
+}
+
+body.egg-lab {
+  overflow: auto;
+}
+
+body.egg-lab .shell {
+  min-height: 100dvh;
+}
+
+body.egg-lab .stage {
+  position: relative;
+  overflow: visible;
+}
+
+.egg-lab-page {
+  position: relative;
+  z-index: 1;
+  width: min(880px, 92vw);
+  margin: 0 auto;
+  padding: 8px 0 72px;
+}
+
+.egg-lab-page .page-title {
+  text-align: center;
+  max-width: 22em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.egg-lanes {
+  display: grid;
+  gap: 22px;
+}
+
+.egg-lane {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 20px 10px;
+  background: rgba(255, 253, 247, 0.62);
+  border: 1px solid rgba(23, 23, 18, 0.06);
+  border-radius: 28px;
+  box-shadow: 0 12px 40px rgba(22, 52, 40, 0.05);
+}
+
+.egg-lane h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.egg-lane p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.egg-lane .egg-stage {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  width: 100%;
+  height: 148px;
+  margin: 8px 0 0;
+  transform: none;
+}
+
+.egg-lane .egg-stage::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 22px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(22, 52, 40, 0.16), transparent);
+}
+
+.egg-lane .egg-mascot {
+  width: 84px;
+  margin-left: -42px;
+  --egg-run: min(32vw, 260px);
+}
+
+.egg-lane .egg-svg {
+  width: 84px;
+  height: 104px;
 }
 
 .landing-copy h1 {
@@ -1095,8 +1745,17 @@ body.is-home .stage {
   .halo,
   .landing-copy,
   .landing-gates,
+  .bounce-route .route-line,
+  .bounce-route,
   .egg-mascot,
   .egg-inner,
+  .egg-lift,
+  .egg-lean,
+  .egg-squash,
+  .egg-pop,
+  .egg-spec,
+  .egg-spec-hot,
+  .egg-shade,
   .egg-shadow,
   .card {
     animation: none;
@@ -1141,6 +1800,21 @@ body.is-home .stage {
     bottom: 4px;
   }
 
+  .egg-stage.is-bounce {
+    height: min(34vh, 220px);
+  }
+
+  .bounce-sphere {
+    width: 58px;
+    height: 68px;
+  }
+
+  .bounce-egg {
+    width: 42px;
+    height: 54px;
+    max-width: none;
+  }
+
   .egg-mascot {
     width: 58px;
     margin-left: -29px;
@@ -1150,6 +1824,21 @@ body.is-home .stage {
   .egg-svg {
     width: 58px;
     height: 72px;
+  }
+
+  .egg-lane .egg-mascot {
+    width: 64px;
+    margin-left: -32px;
+    --egg-run: min(28vw, 110px);
+  }
+
+  .egg-lane .egg-svg {
+    width: 64px;
+    height: 80px;
+  }
+
+  .egg-lane .egg-stage {
+    height: 120px;
   }
 
   .compare,

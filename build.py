@@ -62,18 +62,11 @@ def mark_svg(size: int = 28) -> str:
 </svg>"""
 
 
-def egg_mascot_svg() -> str:
-    return """<svg class="egg-svg" viewBox="0 0 88 108" aria-hidden="true">
-  <path d="M44 7.5C58.5 7.5 74 32 76.5 63C78.5 88 62.5 101 44 101C25.5 101 9.5 88 11.5 63C14 32 29.5 7.5 44 7.5Z" fill="#fffdf7" stroke="#163428" stroke-width="2.4" stroke-linejoin="round"/>
-  <path d="M32 29c5.5-7 16-7 20-1" fill="none" stroke="#d7c4f2" stroke-width="2.2" stroke-linecap="round"/>
-  <ellipse cx="23.5" cy="64" rx="7.5" ry="4.2" fill="#f0b8bc" opacity=".8"/>
-  <ellipse cx="64.5" cy="64" rx="7.5" ry="4.2" fill="#f0b8bc" opacity=".8"/>
-  <circle cx="34" cy="54" r="3.5" fill="#163428"/>
-  <circle cx="54" cy="54" r="3.5" fill="#163428"/>
-  <circle cx="35.3" cy="52.7" r="1.15" fill="#fff"/>
-  <circle cx="55.3" cy="52.7" r="1.15" fill="#fff"/>
-  <path d="M36 67c5 7.5 11 7.5 16 0" fill="none" stroke="#163428" stroke-width="2.15" stroke-linecap="round"/>
-</svg>"""
+def bounce_egg_svg() -> str:
+    return """<svg class="bounce-egg" viewBox="6 4.5 16 20.2" aria-hidden="true">
+        <path d="M14 4.8C16.8 4.8 20.6 10.4 21.5 16.2C22.2 21.6 18.3 24.3 14 24.3C9.7 24.3 5.8 21.6 6.5 16.2C7.4 10.4 11.2 4.8 14 4.8Z" fill="#fcfaf2" stroke="#d7c4f2" stroke-width="1.1"/>
+        <path d="M11.2 10c1.15-1.2 3.2-1.1 3.6.4" fill="none" stroke="#d7c4f2" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>"""
 
 
 def cover_svg(kind: str) -> str:
@@ -405,9 +398,14 @@ def build_home() -> None:
       <a class="pill pill-ghost" href="contact.html">Contact</a>
     </nav>
   </div>
-  <div class="egg-stage">
-    <button class="egg-mascot" type="button" data-egg aria-label="滚动的鸡蛋">
-      <span class="egg-inner">{egg_mascot_svg()}</span>
+  <div class="egg-stage is-bounce" data-bounce-stage>
+    <span class="bounce-floor" aria-hidden="true"></span>
+    <svg class="bounce-route" aria-hidden="true">
+      <path class="route-line" data-route-line></path>
+      <g data-route-apexes></g>
+    </svg>
+    <button class="bounce-sphere" type="button" data-bounce-ball aria-label="鸡蛋" draggable="false">
+      {bounce_egg_svg()}
       <span class="egg-shadow"></span>
     </button>
   </div>
